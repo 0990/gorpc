@@ -2,7 +2,6 @@ package gorpc
 
 import (
 	"fmt"
-	"github.com/davyxu/cellnet"
 	"path"
 	"reflect"
 	"regexp"
@@ -15,7 +14,7 @@ type context struct {
 }
 
 type MessageMeta struct {
-	Codes   cellnet.Codec
+	Codec   Codec
 	Type    reflect.Type
 	ID      int
 	ctxList []*context
@@ -201,7 +200,7 @@ func MessageSize(msg interface{}) int {
 		return 0
 	}
 
-	raw, err := meta.Codes.Encode(msg, nil)
+	raw, err := meta.Codec.Encode(msg)
 	if err != nil {
 		return 0
 	}

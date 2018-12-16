@@ -31,13 +31,13 @@ func (self *Address) String(port int) string {
 }
 
 // 格式 scheme://host:minPort~maxPort/path
-func ParseAddress(addr string) (addrOjb *Address, err error) {
-	addrObj := new(Address)
+func ParseAddress(addr string) (addrObj *Address, err error) {
+	addrObj = new(Address)
 
 	schemePos := strings.Index(addr, "://")
 	if schemePos != -1 {
 		addrObj.Scheme = addr[:schemePos]
-		addr := addr[schemePos+3:]
+		addr = addr[schemePos+3:]
 	}
 
 	colonPos := strings.Index(addr, ":")

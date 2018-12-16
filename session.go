@@ -1,7 +1,5 @@
 package gorpc
 
-import "github.com/davyxu/cellnet"
-
 type Session interface {
 	Raw() interface{}
 
@@ -17,7 +15,7 @@ type RawPacket struct {
 }
 
 func (self *RawPacket) Messge() interface{} {
-	meta := cellnet.MessageMetaByID(self.MsgID)
+	meta := MessageMetaByID(self.MsgID)
 
 	if meta == nil {
 		return struct{}{}

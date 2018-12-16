@@ -7,7 +7,7 @@ type ProcessorBundle interface {
 
 	SetHooker(v gorpc.EventHooker)
 
-	setCallbak(v gorpc.EventCallback)
+	SetCallback(v gorpc.EventCallback)
 }
 
 //execute callback in session's peer's queue
