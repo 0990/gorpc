@@ -2,7 +2,7 @@ package tcp
 
 import (
 	"github.com/0990/gorpc"
-	"github.com/davyxu/cellnet/util"
+	"github.com/0990/gorpc/util"
 	"io"
 	"net"
 )
@@ -23,7 +23,10 @@ func (TCPMessageTransmitter) OnRecvMessage(ses gorpc.Session) (msg interface{}, 
 		return nil, nil
 	}
 
-	opt := ses.Peer().(socketOpt)
+	opt, ok := ses.Peer().(socketOpt)
+	if !ok {
+		panic("hello")
+	}
 
 	if conn, ok := ses.Raw().(net.Conn); ok {
 		opt.ApplySocketReadTimeout(conn, func() {
@@ -39,9 +42,12 @@ func (TCPMessageTransmitter) OnSendMessage(ses gorpc.Session, msg interface{}) (
 		return nil
 	}
 
-	opt := ses.Peer().(socketOpt)
+	opt, ok := ses.Peer().(socketOpt)
+	if !ok {
+		panic("hello")
+	}
 	opt.ApplySocketWriteTimeout(ses.Raw().(net.Conn), func() {
-		err = util.SendLTVPacket(writer, ses.(gorpc.ContextSet), msg)
+		err = util.SendLTVPacket(writer, msg)
 	})
 	return
 }

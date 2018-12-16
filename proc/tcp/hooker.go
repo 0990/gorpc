@@ -3,6 +3,7 @@ package tcp
 import (
 	"fmt"
 	"github.com/0990/gorpc"
+	"github.com/0990/gorpc/relay"
 	"github.com/0990/gorpc/rpc"
 )
 
@@ -20,18 +21,21 @@ func (m MsgHooker) OnInboundEvent(inputEvent gorpc.Event) (output gorpc.Event) {
 	}
 
 	if !handled {
-		//inputEvent, handled, err = relay.ResoleveInboundEvent(inputEvent)
-		//if err != nil {
-		//	log.Errorln("relay.ResolveInboundEvent:", err)
-		//	return
-		//}
+		inputEvent, handled, err = relay.ResolveInboundEvent(inputEvent)
+		if err != nil {
+			log.Errorln("relay.ResolveInboundEvent:", err)
+			return
+		}
+		if !handled {
+			fmt.Println("msg unhandled")
+		}
 
 		//if !handled {
 		//	msglog.WriteRecvLogger(log, "tcp", inputEvent.Session(), inputEvent.Message())
 		//}
-		fmt.Println("msg unhandled")
+
 	}
-	return
+	return inputEvent
 }
 
 func (self MsgHooker) OnOutboundEvent(inputEvent gorpc.Event) (outputEvent gorpc.Event) {
@@ -43,7 +47,13 @@ func (self MsgHooker) OnOutboundEvent(inputEvent gorpc.Event) (outputEvent gorpc
 	}
 
 	if !handled {
-		fmt.Println("msg unhandled")
+		handled, err = relay.ResolveOutboundEvent(inputEvent)
+		if err != nil {
+			log.Errorln("relay.ResolveOutboundEvent:", err)
+		}
+		if !handled {
+			fmt.Println("msg unhandled")
+		}
 	}
-	return
+	return inputEvent
 }

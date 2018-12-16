@@ -55,7 +55,7 @@ func (self *CoreTCPSocketOption) ApplySocketReadTimeout(conn net.Conn, callback 
 	}
 }
 
-func (self *CoreTCPSocketOption) ApplaySocketWriteTimeout(conn net.Conn, callback func()) {
+func (self *CoreTCPSocketOption) ApplySocketWriteTimeout(conn net.Conn, callback func()) {
 	if self.writeTimeout > 0 {
 		conn.SetWriteDeadline(time.Now().Add(self.writeTimeout))
 		callback()

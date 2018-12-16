@@ -65,6 +65,8 @@ func clientAsyncCallback() {
 			done <- struct{}{}
 		case *gorpc.SessionClosed:
 			fmt.Println("clientAsyncCallback closed")
+		default:
+			fmt.Println(msg)
 		}
 	})
 	p.Start()
