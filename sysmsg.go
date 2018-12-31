@@ -32,3 +32,6 @@ func (self CloseReason) String() string {
 type SessionClosed struct {
 	Reason CloseReason
 }
+
+type SessionCloseNotify struct {
+}

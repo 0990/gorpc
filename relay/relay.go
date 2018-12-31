@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/0990/gorpc"
 	"github.com/0990/gorpc/codec"
+	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -13,7 +14,7 @@ var (
 func Relay(sesDetector interface{}, dataList ...interface{}) error {
 	ses, err := getSession(sesDetector)
 	if err != nil {
-		log.Errorln("relay.Relay:", err)
+		logrus.Errorln("relay.Relay:", err)
 		return err
 	}
 

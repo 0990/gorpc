@@ -3,6 +3,7 @@ package tcp
 import (
 	"github.com/0990/gorpc"
 	"github.com/0990/gorpc/peer"
+	"github.com/sirupsen/logrus"
 	"net"
 	"sync"
 	"time"
@@ -85,9 +86,9 @@ func (c *tcpConnector) connect(address string) {
 		c.defautSes.conn = conn
 		if err != nil {
 			if c.tryConnTimes <= reportConnectFailedLimitTimes {
-				log.Errorf("#tcp.connect failed(%s) %v", c.Name(), err.Error())
+				logrus.Errorf("#tcp.connect failed(%s) %v", c.Name(), err.Error())
 				if c.tryConnTimes == reportConnectFailedLimitTimes {
-					log.Errorf("(%s) continue reconnecting,but mute log", c.Name())
+					logrus.Errorf("(%s) continue reconnecting,but mute log", c.Name())
 				}
 			}
 

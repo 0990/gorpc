@@ -54,6 +54,16 @@ func (self *RemoteCallACK) String() string {
 	return proto.CompactTextString(self)
 }
 
+func (self *RemoteCallACK) Size() (ret int) {
+	ret += proto.SizeUInt32(0, self.MsgID)
+
+	ret += proto.SizeBytes(1, self.Data)
+
+	ret += proto.SizeInt64(2, self.CallID)
+
+	return
+}
+
 func (self *RemoteCallACK) Marshal(buffer *proto.Buffer) error {
 	proto.MarshalUInt32(buffer, 0, self.MsgID)
 	proto.MarshalBytes(buffer, 1, self.Data)

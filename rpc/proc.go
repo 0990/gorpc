@@ -3,6 +3,7 @@ package rpc
 import (
 	"github.com/0990/gorpc"
 	"github.com/0990/gorpc/codec"
+	"github.com/sirupsen/logrus"
 )
 
 type RemoteCallMsg interface {
@@ -24,10 +25,10 @@ func ResolveInboundEvent(inputEvent gorpc.Event) (outputEvent gorpc.Event, handl
 	if err != nil {
 		return inputEvent, false, err
 	}
-	if log.IsDebugEnabled() {
+	if false {
 		peerInfo := inputEvent.Session().Peer().(gorpc.PeerProperty)
 
-		log.Debugf("#rpc.recv(%s)@%d len: %d %s | %s",
+		logrus.Debugf("#rpc.recv(%s)@%d len: %d %s | %s",
 			peerInfo.Name(),
 			inputEvent.Session().ID(),
 			gorpc.MessageSize(userMsg),
@@ -64,11 +65,11 @@ func ResolveOutboundEvent(inputEvent gorpc.Event) (handled bool, err error) {
 		return false, err
 	}
 
-	if log.IsDebugEnabled() {
+	if false {
 
 		peerInfo := inputEvent.Session().Peer().(gorpc.PeerProperty)
 
-		log.Debugf("#rpc.send(%s)@%d len: %d %s | %s",
+		logrus.Debugf("#rpc.send(%s)@%d len: %d %s | %s",
 			peerInfo.Name(),
 			inputEvent.Session().ID(),
 			gorpc.MessageSize(userMsg),

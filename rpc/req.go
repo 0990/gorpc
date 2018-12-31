@@ -3,7 +3,8 @@ package rpc
 import (
 	"errors"
 	"github.com/0990/gorpc"
-	"github.com/davyxu/cellnet/codec"
+	"github.com/0990/gorpc/codec"
+	"github.com/sirupsen/logrus"
 	"sync"
 	"sync/atomic"
 )
@@ -25,10 +26,10 @@ func (self *request) RecvFeedback(msg interface{}) {
 }
 
 func (self *request) Send(ses gorpc.Session, msg interface{}) {
-	data, meta, err := codec.EncodeMessage(msg, nil)
+	data, meta, err := codec.EncodeMessage(msg)
 
 	if err != nil {
-		log.Errorf("rpc request message encode error:%s", err)
+		logrus.Errorf("rpc request message encode error:%s", err)
 		return
 	}
 

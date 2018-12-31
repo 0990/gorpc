@@ -4,6 +4,7 @@ import (
 	"github.com/0990/gorpc"
 	"github.com/0990/gorpc/peer"
 	"github.com/0990/gorpc/util"
+	"github.com/sirupsen/logrus"
 	"net"
 	"sync"
 	"sync/atomic"
@@ -67,7 +68,7 @@ func (self *tcpSession) IsManualClosed() bool {
 func (self *tcpSession) protectedReadMessage() (msg interface{}, err error) {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Errorf("IO panic: %s", err)
+			logrus.Errorf("IO panic: %s", err)
 			self.conn.Close()
 		}
 	}()
@@ -93,7 +94,7 @@ func (self *tcpSession) recvLoop() {
 
 		if err != nil {
 			if !util.IsEOFOrNetReadError(err) {
-				log.Errorf("session closed,sesid:%d,err:%s", self.ID(), err)
+				logrus.Errorf("session closed,sesid:%d,err:%s", self.ID(), err)
 			}
 			self.sendQueue.Add(nil)
 

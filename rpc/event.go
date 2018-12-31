@@ -3,6 +3,7 @@ package rpc
 import (
 	"github.com/0990/gorpc"
 	"github.com/0990/gorpc/codec"
+	"github.com/sirupsen/logrus"
 )
 
 type RecvMsgEvent struct {
@@ -28,7 +29,7 @@ func (self *RecvMsgEvent) Queue() gorpc.EventQueue {
 func (self *RecvMsgEvent) Reply(msg interface{}) {
 	data, meta, err := codec.EncodeMessage(msg)
 	if err != nil {
-		log.Errorf("rpc reply message encode error:%s", err)
+		logrus.Errorf("rpc reply message encode error:%s", err)
 		return
 	}
 	self.ses.Send(&RemoteCallACK{

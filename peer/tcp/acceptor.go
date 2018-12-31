@@ -4,6 +4,7 @@ import (
 	"github.com/0990/gorpc"
 	"github.com/0990/gorpc/peer"
 	"github.com/0990/gorpc/util"
+	"github.com/sirupsen/logrus"
 	"net"
 	"strings"
 )
@@ -41,13 +42,13 @@ func (self *tcpAcceptor) Start() gorpc.Peer {
 		return net.Listen("tcp", a.HostPortString(port))
 	})
 	if err != nil {
-		log.Errorf("#tcp.listen failed(%s) %v", self.Name(), err.Error())
+		logrus.Errorf("#tcp.listen failed(%s) %v", self.Name(), err.Error())
 		self.SetRunning(false)
 		return self
 	}
 
 	self.listener = ln.(net.Listener)
-	log.Infof("#tcp.listen(%s) %s", self.Name(), self.ListenAddress())
+	logrus.Infof("#tcp.listen(%s) %s", self.Name(), self.ListenAddress())
 	go self.accept()
 	return self
 }
@@ -72,7 +73,7 @@ func (self *tcpAcceptor) accept() {
 		}
 
 		if err != nil {
-			log.Errorf("#tcp.accept failed(%s) %v", self.Name(), err.Error())
+			logrus.Errorf("#tcp.accept failed(%s) %v", self.Name(), err.Error())
 			break
 		}
 		go self.onNewSession(conn)
